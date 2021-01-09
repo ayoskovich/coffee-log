@@ -13,7 +13,9 @@
 
 import pandas as pd
 import numpy as np
-import matplotlib
+
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 get_ipython().run_line_magic('run', './helpers.ipynb')
 
@@ -38,6 +40,22 @@ df['over'] = df['over'].apply(toFloat)
 
 df['duration'] = tryTime((df.endTime - df.startTime).values)
 df['duration'] = df['duration'].dt.components.minutes
+
+
+# In[ ]:
+
+
+(
+    df
+    .loc[~df.duration.isna()]
+    .loc[df.coffee != 'mix']
+    .pipe(lambda x: sns.boxplot(x='duration', y='coffee', orient='h', data=x))
+    .set(
+        title='Variation of Brew Times Across Coffees',
+        xlabel='Duration (minutes)',
+        ylabel='Type of Coffee'
+    )
+);
 
 
 # In[ ]:
