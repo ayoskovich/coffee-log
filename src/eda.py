@@ -49,10 +49,51 @@ df['duration'] = df['duration'].dt.components.minutes
     df
     .loc[~df.duration.isna()]
     .loc[df.coffee != 'mix']
-    .pipe(lambda x: sns.boxplot(x='duration', y='coffee', orient='h', data=x))
+    ['coffee']
+    .value_counts()
+)
+
+
+# In[ ]:
+
+
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 15))
+
+    
+plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
+
+(
+    df
+    .loc[~df.duration.isna()]
+    .loc[df.coffee != 'mix']
+    .pipe(lambda x: sns.boxplot(x='duration', y='coffee', orient='h', data=x, ax=ax1))
     .set(
         title='Variation of Brew Times Across Coffees',
-        xlabel='Duration (minutes)',
+        xlabel='Total brew time (minutes)',
+        ylabel='Type of Coffee'
+    )
+);
+
+(
+    df
+    .loc[~df.duration.isna()]
+    .loc[df.coffee != 'mix']
+    .pipe(lambda x: sns.boxplot(x='gTime', y='coffee', orient='h', data=x, ax=ax2))
+    .set(
+        title='Amount of time it takes to grind',
+        xlabel='Grind time (seconds)',
+        ylabel='Type of Coffee'
+    )
+);
+
+(
+    df
+    .loc[~df.duration.isna()]
+    .loc[df.coffee != 'mix']
+    .pipe(lambda x: sns.boxplot(x='bTime', y='coffee', orient='h', data=x, ax=ax3))
+    .set(
+        title='Drawdown time',
+        xlabel='Drawdown (seconds)',
         ylabel='Type of Coffee'
     )
 );
@@ -61,7 +102,18 @@ df['duration'] = df['duration'].dt.components.minutes
 # In[ ]:
 
 
-df.plot.scatter(x='date', y='cTime');
+fig, (ax1, ax2) = plt.subplots(1,2, figsize=(15,5))
+
+(
+    sns.scatterplot(x='date', y='cTime', data=df, ax=ax1)
+    .set(xticklabels=[], title='Count time over time')
+);
+
+(
+    sns.scatterplot(x='date', y='over', data=df, ax=ax2)
+    .set(xticklabels=[], title='Overages over time')
+);
+ax2.axhline(color='red');
 
 
 # In[ ]:
