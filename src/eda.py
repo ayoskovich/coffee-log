@@ -125,37 +125,14 @@ df['coffee'].value_counts().plot(kind='barh');
 # In[ ]:
 
 
-df.plot.scatter(x='date', y='duration');
+get_ipython().run_line_magic('run', './helpers.ipynb')
 
-
-# In[ ]:
-
-
-df['duration'].hist();
-
-
-# In[ ]:
-
-
-df['cTime'].hist();
-
-
-# In[ ]:
-
-
-df['gTime'].hist();
-
-
-# In[ ]:
-
-
-df['bTime'].hist();
-
-
-# In[ ]:
-
-
-df.dtypes
+(
+    df
+    .loc[~df.duration.isna()]
+    .loc[df.coffee != 'mix']
+    .pipe(lambda x: x.assign(uptime = computeUptime(x.cTime, x.gTime, x.bTime)))
+)
 
 
 # In[ ]:

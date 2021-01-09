@@ -49,4 +49,9 @@ def tryTime(x):
         return x.astype('timedelta64[m]')
     except:
         return np.datetime64('NaT')
+    
+
+def computeUptime(c, g, b):
+    """Compute uptime for brewing. """
+    return c + g + b
 
