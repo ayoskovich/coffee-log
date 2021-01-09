@@ -1,0 +1,12 @@
+Data dictionary:
+
+startTime: Time I started to make the coffee
+date: Date I made the coffee
+count: Number of beans I intended to count out
+over: Number of beans over (if +) or under (if -) I counted out
+cTime: Amount of time it took me to count out *count* amount of beans
+gTime: Amount of time it took me to manually grind the beans
+bTime: Amount of time it took me to brew (pour water over) the coffee
+coffee: Name of coffee I used
+endTime: Time I stopped brewing (once all water had passed through the beans)
+notes: Random notes I took for each record
