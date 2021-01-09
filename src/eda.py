@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# ## Questions
+# 
+# - Do the times vary by coffee?
+# - Did I get faster at grinding?
+# - Did I get better at eyeballing the pours?
+# - Total time vs. unaccounted for time
+
 # In[ ]:
 
 
@@ -29,13 +36,32 @@ df['endTime'] = df['endTime'].apply(getTime)
 df['count'] = df['count'].apply(toFloat)
 df['over'] = df['over'].apply(toFloat)
 
-df.head()
+df['duration'] = tryTime((df.endTime - df.startTime).values)
+df['duration'] = df['duration'].dt.components.minutes
+
+
+# In[ ]:
+
+
+df.plot.scatter(x='date', y='cTime');
 
 
 # In[ ]:
 
 
 df['coffee'].value_counts().plot(kind='barh');
+
+
+# In[ ]:
+
+
+df.plot.scatter(x='date', y='duration');
+
+
+# In[ ]:
+
+
+df['duration'].hist();
 
 
 # In[ ]:
@@ -60,4 +86,10 @@ df['bTime'].hist();
 
 
 df.dtypes
+
+
+# In[ ]:
+
+
+
 

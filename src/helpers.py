@@ -27,8 +27,17 @@ def getTime2(time):
     
     
 def toFloat(x):
+    """ Nicely convert to float. """
     try:
         return np.float(x)
     except:
         return np.nan
+    
+    
+def tryTime(x):
+    """ Convert a timediff"""
+    try:
+        return x.astype('timedelta64[m]')
+    except:
+        return np.datetime64('NaT')
 
