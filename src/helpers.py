@@ -18,6 +18,7 @@ def getTime(time):
     """Get the time. """
     return pd.to_datetime(time, errors='coerce')
 
+
 def getTime2(time):
     try:
         return pd.Timestamp(time).time()

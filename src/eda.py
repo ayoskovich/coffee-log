@@ -10,16 +10,10 @@ import matplotlib
 
 get_ipython().run_line_magic('run', './helpers.ipynb')
 
-df = pd.read_csv('data/coffee.csv')
-df.head()
-
-
-# In[ ]:
-
-
-get_ipython().run_line_magic('run', './helpers.ipynb')
-
-df = pd.read_csv('data/coffee.csv')
+df = (
+    pd.read_csv('data/coffee.csv')
+    .drop(labels=['Unnamed: 10', 'Unnamed: 11'], axis=1)
+)
 
 df.replace('na', np.NaN, inplace=True)
 
@@ -35,63 +29,35 @@ df['endTime'] = df['endTime'].apply(getTime)
 df['count'] = df['count'].apply(toFloat)
 df['over'] = df['over'].apply(toFloat)
 
-
-# In[ ]:
-
-
 df.head()
 
 
 # In[ ]:
 
 
-df['cTime'].hist()
+df['coffee'].value_counts().plot(kind='barh');
+
+
+# In[ ]:
+
+
+df['cTime'].hist();
+
+
+# In[ ]:
+
+
+df['gTime'].hist();
+
+
+# In[ ]:
+
+
+df['bTime'].hist();
 
 
 # In[ ]:
 
 
 df.dtypes
-
-
-# In[ ]:
-
-
-nat = np.datetime64('NaT')
-
-
-# In[ ]:
-
-
-nat
-
-
-# In[ ]:
-
-
-pd.Timestamp(nat)
-
-
-# In[ ]:
-
-
-dt = df.startTime.tail(1).values[0]
-
-
-# In[ ]:
-
-
-dt
-
-
-# In[ ]:
-
-
-pd.Timestamp(dt).time()
-
-
-# In[ ]:
-
-
-
 
