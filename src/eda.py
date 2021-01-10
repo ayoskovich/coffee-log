@@ -46,13 +46,29 @@ df['duration'] = df['duration'].dt.components.minutes
 # In[ ]:
 
 
+df.shape
+
+
+# In[ ]:
+
+
 calplot.calplot(df['date'].value_counts());
 
 
 # In[ ]:
 
 
+df.head()
+
+
+# In[ ]:
+
+
+from matplotlib.ticker import MaxNLocator
+ax = plt.figure().gca()
+ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 df['coffee'].value_counts().plot(kind='barh');
+ax.set(xlabel='Amount of Observations', title='Amounts of different coffees');
 
 
 # In[ ]:
@@ -60,11 +76,33 @@ df['coffee'].value_counts().plot(kind='barh');
 
 (
     df
-    .loc[~df.duration.isna()]
+    #.loc[~df.duration.isna()]
     .loc[df.coffee != 'mix']
     ['coffee']
     .value_counts()
 )
+
+
+# In[ ]:
+
+
+df.head()
+
+
+# In[ ]:
+
+
+fig, ax = plt.subplots(1,1, figsize=(15,5))
+(
+    df
+    .loc[~df.duration.isna()]
+    .loc[df.coffee != 'mix']
+    .pipe(lambda x: sns.scatterplot(x='date', y='duration', data=x, ax=ax))
+    .set(
+        title='Total Time Spent Making Coffee Each Day', xlabel='Date', ylabel='Total Time (minutes)'
+    )
+);
+fig.savefig('totaltime.png')
 
 
 # In[ ]:
@@ -81,7 +119,7 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee != 'mix']
     .pipe(lambda x: sns.boxplot(x='duration', y='coffee', orient='h', data=x, ax=ax1))
     .set(
-        title='Variation of Brew Times Across Coffees',
+        title='Variation of Total Brew Times Across Coffees',
         xlabel='Total brew time (minutes)',
         ylabel='Type of Coffee'
     )
@@ -89,7 +127,7 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
 
 (
     df
-    .loc[~df.duration.isna()]
+    #.loc[~df.duration.isna()]
     .loc[df.coffee != 'mix']
     .pipe(lambda x: sns.boxplot(x='gTime', y='coffee', orient='h', data=x, ax=ax2))
     .set(
@@ -101,7 +139,7 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
 
 (
     df
-    .loc[~df.duration.isna()]
+    #.loc[~df.duration.isna()]
     .loc[df.coffee != 'mix']
     .pipe(lambda x: sns.boxplot(x='bTime', y='coffee', orient='h', data=x, ax=ax3))
     .set(
@@ -119,12 +157,12 @@ fig, (ax1, ax2) = plt.subplots(1,2, figsize=(15,5))
 
 (
     sns.scatterplot(x='date', y='cTime', data=df, ax=ax1)
-    .set(xticklabels=[], title='Count time over time')
+    .set(xticklabels=[], title='Count time over time', xlabel='Time')
 );
 
 (
     sns.scatterplot(x='date', y='over', data=df, ax=ax2)
-    .set(xticklabels=[], title='Overages over time')
+    .set(xticklabels=[], title='Overages over time', xlabel='Time')
 );
 ax2.axhline(color='red');
 
