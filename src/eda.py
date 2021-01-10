@@ -48,6 +48,12 @@ plt.rcParams.update({'font.size': 18})
 # In[ ]:
 
 
+df.tail()
+
+
+# In[ ]:
+
+
 calplot.calplot(df['date'].value_counts());
 
 
@@ -185,11 +191,17 @@ save_fig(fig, 'c_over_time.png')
 fig, ax = plt.subplots(1,1, figsize=(15,5))
 (
     sns.scatterplot(x='date', y='over', data=df, ax=ax)
-    .set(xticklabels=[], title='Overages over time', xlabel='Time', ylabel='Amount overpoured (number of beans)')
+    .set(xticklabels=[], title='Overages Over Time', xlabel='Time', ylabel='Amount overpoured (number of beans)')
 )
 plt.tight_layout()
 ax.axhline(color='red');
 save_fig(fig, 'overages.png')
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
