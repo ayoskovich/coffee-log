@@ -52,12 +52,6 @@ df.describe()
 # In[ ]:
 
 
-df.shape
-
-
-# In[ ]:
-
-
 calplot.calplot(df['date'].value_counts());
 
 
@@ -131,7 +125,7 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='duration', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Variation of Total Brew Times Across Coffees\n(Groups < 10 omitted)',
+        title='Variation of Total Brew Times Across Coffees\n(Groups < 10 observations omitted)',
         xlabel='Total brew time (minutes)',
         ylabel='Type of Coffee'
     )
@@ -149,7 +143,7 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='gTime', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Amount of time it takes to grind\n(Groups < 10 omitted)',
+        title='Amount of time it takes to grind\n(Groups < 10 observations omitted)',
         xlabel='Grind time (seconds)',
         ylabel='Type of Coffee'
     )
@@ -167,7 +161,7 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='bTime', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Drawdown time\n(Groups < 10 omitted)',
+        title='Drawdown time\n(Groups < 10 observations omitted)',
         xlabel='Drawdown (seconds)',
         ylabel='Type of Coffee'
     )
@@ -209,7 +203,7 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='over', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Eyeballing\n(Groups < 10 omitted)',
+        title='Eyeballing\n(Groups < 10 observations omitted)',
         xlabel='Overage (# of beans)',
         ylabel='Type of Coffee'
     )
