@@ -42,11 +42,7 @@ df['over'] = df['over'].apply(toFloat)
 df['duration'] = tryTime((df.endTime - df.startTime).values)
 df['duration'] = df['duration'].dt.components.minutes
 
-
-# In[ ]:
-
-
-df.describe()
+plt.rcParams.update({'font.size': 18})
 
 
 # In[ ]:
@@ -58,17 +54,12 @@ calplot.calplot(df['date'].value_counts());
 # In[ ]:
 
 
-df.head()
-
-
-# In[ ]:
-
-
 from matplotlib.ticker import MaxNLocator
-ax = plt.figure().gca()
+fig, ax = plt.subplots(1,1, figsize=(15,5))
 ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 df['coffee'].value_counts().plot(kind='barh');
 ax.set(xlabel='Amount of Observations', title='Amounts of different coffees');
+plt.tight_layout()
 save_fig(plt.gcf(), 'coffee_bar.png')
 
 
@@ -111,6 +102,7 @@ fig, ax = plt.subplots(1,1, figsize=(15,5))
         title='Total Time Spent Making Coffee Each Day', xlabel='Date', ylabel='Total Time (minutes)'
     )
 );
+plt.tight_layout()
 save_fig(fig, 'total.png')
 
 
@@ -125,11 +117,12 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='duration', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Variation of Total Brew Times Across Coffees\n(Groups < 10 observations omitted)',
+        title=f'Variation of Total Brew Times Across Coffees\n{SAMP_WARNING}',
         xlabel='Total brew time (minutes)',
         ylabel='Type of Coffee'
     )
 );
+plt.tight_layout()
 save_fig(fig, 'total_brew.png')
 
 
@@ -143,11 +136,12 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='gTime', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Amount of time it takes to grind\n(Groups < 10 observations omitted)',
+        title=f'Amount of time it takes to grind\n{SAMP_WARNING}',
         xlabel='Grind time (seconds)',
         ylabel='Type of Coffee'
     )
 );
+plt.tight_layout()
 save_fig(fig, 'grind_time.png')
 
 
@@ -161,11 +155,12 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='bTime', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Drawdown time\n(Groups < 10 observations omitted)',
+        title=f'Drawdown Time Varies By Coffee\n{SAMP_WARNING}',
         xlabel='Drawdown (seconds)',
         ylabel='Type of Coffee'
     )
 );
+plt.tight_layout()
 save_fig(fig, 'draw_down.png')
 
 
@@ -175,9 +170,12 @@ save_fig(fig, 'draw_down.png')
 fig, ax = plt.subplots(1,1, figsize=(15,5))
 
 (
-    sns.scatterplot(x='date', y='cTime', data=df, ax=ax)
-    .set(xticklabels=[], title='Count time over time', xlabel='Time')
+    df
+    .pipe(lambda x: x.assign(cTime = x.cTime / 60))
+    .pipe(lambda x: sns.scatterplot(x='date', y='cTime', data=x, ax=ax))
+    .set(xticklabels=[], title='Minutes To Count Beans', xlabel='Time', ylabel='Time (minutes)')
 );
+plt.tight_layout()
 save_fig(fig, 'c_over_time.png')
 
 
@@ -189,6 +187,7 @@ fig, ax = plt.subplots(1,1, figsize=(15,5))
     sns.scatterplot(x='date', y='over', data=df, ax=ax)
     .set(xticklabels=[], title='Overages over time', xlabel='Time', ylabel='Amount overpoured (number of beans)')
 )
+plt.tight_layout()
 ax.axhline(color='red');
 save_fig(fig, 'overages.png')
 
@@ -203,11 +202,12 @@ plt.subplots_adjust(left, bottom, right, top, wspace, hspace)
     .loc[df.coffee.isin(overTen)]
     .pipe(lambda x: sns.boxplot(x='over', y='coffee', orient='h', data=x, ax=ax))
     .set(
-        title='Eyeballing\n(Groups < 10 observations omitted)',
+        title=f'Eyeballing\n{SAMP_WARNING}',
         xlabel='Overage (# of beans)',
         ylabel='Type of Coffee'
     )
 );
+plt.tight_layout()
 ax.axvline(color='red');
 save_fig(fig, 'overages_by_cof.png')
 
@@ -226,4 +226,5 @@ fig, ax = plt.subplots(1,1, figsize=(15,5))
     .pipe(lambda x: sns.scatterplot(x='date', y='unac', data=x, ax=ax)
          .set(title='Random time over time', xlabel='Time', ylabel='Unaccounted for', xticklabels=[]))
 );
+plt.tight_layout()
 

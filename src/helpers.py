@@ -13,6 +13,8 @@ wspace = 0.5  # the amount of width reserved for space between subplots,
 hspace = 0.5  # the amount of height reserved for space between subplots,
               # expressed as a fraction of the average axis height
 
+SAMP_WARNING = '(Groups with < 10 observations omitted)'
+    
 def timeToSec(time):
     """Returns number of seconds in time. """
     try:
