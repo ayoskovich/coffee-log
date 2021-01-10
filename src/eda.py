@@ -16,6 +16,7 @@ import numpy as np
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+import calplot
 
 get_ipython().run_line_magic('run', './helpers.ipynb')
 
@@ -40,6 +41,18 @@ df['over'] = df['over'].apply(toFloat)
 
 df['duration'] = tryTime((df.endTime - df.startTime).values)
 df['duration'] = df['duration'].dt.components.minutes
+
+
+# In[ ]:
+
+
+calplot.calplot(df['date'].value_counts());
+
+
+# In[ ]:
+
+
+df['coffee'].value_counts().plot(kind='barh');
 
 
 # In[ ]:
@@ -119,24 +132,16 @@ ax2.axhline(color='red');
 # In[ ]:
 
 
-df['coffee'].value_counts().plot(kind='barh');
-
-
-# In[ ]:
-
-
 get_ipython().run_line_magic('run', './helpers.ipynb')
 
 (
     df
     .loc[~df.duration.isna()]
     .loc[df.coffee != 'mix']
-    .pipe(lambda x: x.assign(uptime = computeUptime(x.cTime, x.gTime, x.bTime)))
-)
-
-
-# In[ ]:
-
-
-
+    .pipe(lambda x: x.assign(uptime = computeUptime(x.cTime, x.gTime, x.bTime) / 60 ))
+    .pipe(lambda x: x.assign(unac = x.duration - x.uptime))
+    
+    .pipe(lambda x: sns.scatterplot(x='date', y='unac', data=x)
+         .set(title='Random time over time', xlabel='Time', ylabel='Unaccounted for', xticklabels=[]))
+);
 
