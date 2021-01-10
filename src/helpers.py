@@ -55,3 +55,8 @@ def computeUptime(c, g, b):
     """Compute uptime for brewing. """
     return c + g + b
 
+
+def save_fig(f, name):
+    f.savefig(f'graphs/{name}')
+    f.savefig(f'/home/anthony/personalSite/content/project/coffee/{name}')
+
